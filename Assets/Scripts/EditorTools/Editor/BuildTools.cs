@@ -523,6 +523,25 @@ public class BuildTools
             throw new Exception("BuildPipeline.BuildPlayer failed: " + res.ToString());
     }
 
+
+    [MenuItem("FPS Sample/BuildSystem/WebGL/CreateBuildWebGL")]
+    public static void CreateBuildWebGL()
+    {
+        var target = BuildTarget.WebGL;
+        var buildName = GetBuildName();
+        var buildPath = GetBuildPath(target, buildName);
+        string executableName = Application.productName;
+
+        Directory.CreateDirectory(buildPath);
+        BuildBundles(buildPath, target, true, true, true);
+        var res = BuildGame(buildPath, executableName, target, BuildOptions.None, buildName, false);
+
+        if (!res)
+            throw new Exception("BuildPipeline.BuildPlayer failed");
+        if (res.summary.result != UnityEditor.Build.Reporting.BuildResult.Succeeded)
+            throw new Exception("BuildPipeline.BuildPlayer failed: " + res.ToString());
+    }
+
     [MenuItem("FPS Sample/BuildSystem/Linux64/PostProcess")]
     public static void PostProcessLinux()
     {
